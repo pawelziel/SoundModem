@@ -97,7 +97,7 @@ internal static class SerialTransport
                 Directory.CreateDirectory(Path.GetDirectoryName(linkPath)!);
                 File.CreateSymbolicLink(linkPath, slavePath);
                 linkCreated = true;
-                masterStream = new FileStream(masterHandle, FileAccess.ReadWrite, 4096, isAsync: true);
+                masterStream = new FileStream(masterHandle, FileAccess.ReadWrite, 4096, isAsync: false);
                 return new PtyTransport(masterStream, slaveHandle, linkPath, slavePath);
             }
             catch

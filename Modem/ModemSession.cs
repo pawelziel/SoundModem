@@ -9,7 +9,7 @@ internal sealed class ModemSession
 {
     private static readonly TimeSpan EscapeGuardTime = TimeSpan.FromSeconds(1);
     private readonly Stream _serial;
-    private readonly PortAudioHost _audio;
+    private readonly IAudioHost _audio;
     private readonly ModemProtocol _protocol;
     private readonly Channel<byte> _input = Channel.CreateBounded<byte>(new BoundedChannelOptions(4096)
     {
@@ -26,7 +26,7 @@ internal sealed class ModemSession
     private long _lastDataActivity = Stopwatch.GetTimestamp();
     private long _lastPlus = Stopwatch.GetTimestamp();
 
-    public ModemSession(Stream serial, PortAudioHost audio, ModemProtocol protocol)
+    public ModemSession(Stream serial, IAudioHost audio, ModemProtocol protocol)
     {
         _serial = serial;
         _audio = audio;
