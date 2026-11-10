@@ -27,11 +27,6 @@ internal static class AudioHostFactory
 {
     public static IAudioHost Create(ModemProtocol protocol)
     {
-        if (OperatingSystem.IsLinux() && !Directory.Exists("/dev/snd"))
-        {
-            return new SilentAudioHost();
-        }
-
         try
         {
             return new PortAudioHost(protocol);

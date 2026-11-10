@@ -8,7 +8,6 @@ internal sealed class PortAudioHost : IAudioHost
     private const int Continue = 0;
     private const ulong Int16SampleFormat = 0x00000008;
     private const int BufferCapacity = 4096;
-    private const int DeviceUnavailable = -9985;
     private readonly ByteRingBuffer _transmitQueue = new(BufferCapacity);
     private readonly ByteRingBuffer _receiveQueue = new(BufferCapacity);
     private readonly IAudioModulator _modulator;
@@ -50,13 +49,6 @@ internal sealed class PortAudioHost : IAudioHost
                 framesPerBuffer: 0,
                 callback: _callback,
                 userData: IntPtr.Zero);
-            if (result == DeviceUnavailable)
-            {
-                var message = Marshal.PtrToStringUTF8(PortAudioNative.GetErrorText(result));
-                throw new AudioDeviceUnavailableException(
-                    $"PortAudio could not open the default audio input/output stream: {message ?? $"error {result}"}.");
-            }
-
             Check(result, "open the default audio input/output stream");
             Check(PortAudioNative.StartStream(_stream), "start the audio stream");
         }
@@ -139,7 +131,8 @@ internal sealed class PortAudioHost : IAudioHost
         if (result != 0)
         {
             var message = Marshal.PtrToStringUTF8(PortAudioNative.GetErrorText(result));
-            throw new InvalidOperationException($"PortAudio could not {operation}: {message ?? $"error {result}"}.");
+            throw new AudioDeviceUnavailableException(
+                $"PortAudio could not {operation}: {message ?? $"error {result}"}.");
         }
     }
 }
