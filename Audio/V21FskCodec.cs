@@ -1,6 +1,6 @@
 namespace SoundModem.Audio;
 
-internal sealed class V21FskModulator
+internal sealed class V21FskModulator : IAudioModulator
 {
     private const int SampleRate = 8000;
     private const int BaudRate = 300;
@@ -60,7 +60,7 @@ internal sealed class V21FskModulator
     }
 }
 
-internal sealed class V21FskDemodulator
+internal sealed class V21FskDemodulator : IAudioDemodulator
 {
     private const int SampleRate = 8000;
     private const int BaudRate = 300;

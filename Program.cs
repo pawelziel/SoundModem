@@ -15,9 +15,15 @@ internal static class Program
             return 0;
         }
 
+        if (!TryGetProtocol(args, out var protocol))
+        {
+            Console.Error.WriteLine("Protocol must be either v21 or v22.");
+            return 2;
+        }
+
         if (args.Contains("--self-test", StringComparer.OrdinalIgnoreCase))
         {
-            return V21FskSelfTest.Run();
+            return protocol == ModemProtocol.V22 ? V22DqpskSelfTest.Run() : V21FskSelfTest.Run();
         }
 
         var endpoint = GetOption(args, "--endpoint") ??
@@ -31,12 +37,12 @@ internal static class Program
 
         try
         {
-            using var audio = new PortAudioHost();
+            using var audio = new PortAudioHost(protocol);
             await using var transport = await SerialTransport.OpenAsync(endpoint, cancellation.Token);
-            Console.Error.WriteLine($"V.21 modem ready. Serial endpoint: {transport.Endpoint}");
+            Console.Error.WriteLine($"{GetProtocolName(protocol)} modem ready. Serial endpoint: {transport.Endpoint}");
             Console.Error.WriteLine("Use Ctrl+C to stop.");
 
-            var session = new ModemSession(transport.Stream, audio);
+            var session = new ModemSession(transport.Stream, audio, protocol);
             await session.RunAsync(cancellation.Token);
             return 0;
         }
@@ -46,10 +52,32 @@ internal static class Program
         }
         catch (Exception exception)
         {
-            Console.Error.WriteLine($"V.21 modem failed: {exception.Message}");
+            Console.Error.WriteLine($"{GetProtocolName(protocol)} modem failed: {exception.Message}");
             return 1;
         }
     }
+
+    private static bool TryGetProtocol(string[] args, out ModemProtocol protocol)
+    {
+        var value = GetOption(args, "--protocol");
+        if (value is null || string.Equals(value, "v21", StringComparison.OrdinalIgnoreCase))
+        {
+            protocol = ModemProtocol.V21;
+            return true;
+        }
+
+        if (string.Equals(value, "v22", StringComparison.OrdinalIgnoreCase))
+        {
+            protocol = ModemProtocol.V22;
+            return true;
+        }
+
+        protocol = default;
+        return false;
+    }
+
+    private static string GetProtocolName(ModemProtocol protocol) =>
+        protocol == ModemProtocol.V22 ? "V.22" : "V.21";
 
     private static string? GetOption(string[] args, string name)
     {
@@ -67,8 +95,8 @@ internal static class Program
     private static void PrintUsage()
     {
         var defaultEndpoint = OperatingSystem.IsWindows() ? "V21ModemPipe" : "/tmp/ttyV21Modem";
-        Console.WriteLine("SoundModem [--endpoint PATH_OR_PIPE_NAME]");
-        Console.WriteLine("SoundModem --self-test");
+        Console.WriteLine("SoundModem [--protocol v21|v22] [--endpoint PATH_OR_PIPE_NAME]");
+        Console.WriteLine("SoundModem --self-test [--protocol v21|v22]");
         Console.WriteLine($"Default endpoint: {defaultEndpoint}");
         Console.WriteLine("On Unix, the endpoint is a symlink to a PTY slave. On Windows, it is a named pipe.");
     }

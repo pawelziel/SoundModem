@@ -10,6 +10,7 @@ internal sealed class ModemSession
     private static readonly TimeSpan EscapeGuardTime = TimeSpan.FromSeconds(1);
     private readonly Stream _serial;
     private readonly PortAudioHost _audio;
+    private readonly ModemProtocol _protocol;
     private readonly Channel<byte> _input = Channel.CreateBounded<byte>(new BoundedChannelOptions(4096)
     {
         FullMode = BoundedChannelFullMode.Wait,
@@ -25,10 +26,11 @@ internal sealed class ModemSession
     private long _lastDataActivity = Stopwatch.GetTimestamp();
     private long _lastPlus = Stopwatch.GetTimestamp();
 
-    public ModemSession(Stream serial, PortAudioHost audio)
+    public ModemSession(Stream serial, PortAudioHost audio, ModemProtocol protocol)
     {
         _serial = serial;
         _audio = audio;
+        _protocol = protocol;
     }
 
     public async Task RunAsync(CancellationToken cancellationToken)
@@ -255,7 +257,7 @@ internal sealed class ModemSession
         _pendingPluses = 0;
         _lastDataActivity = Stopwatch.GetTimestamp();
         _dataMode = true;
-        await RespondAsync("CONNECT 300", "1", cancellationToken);
+        await RespondAsync(_protocol == ModemProtocol.V22 ? "CONNECT 1200" : "CONNECT 300", "1", cancellationToken);
     }
 
     private Task RespondAsync(string verbose, string numeric, CancellationToken cancellationToken)
