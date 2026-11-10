@@ -2,6 +2,19 @@
 
 SoundModem is a cross-platform C#/.NET 8 software modem that bridges a serial byte stream and audio using V.21 originate-channel FSK. It uses 300 baud, 8N1 framing, mono 8 kHz PCM, 1180 Hz mark, and 980 Hz space tones.
 
+## Project layout
+
+The solution and application project are at the repository root. Source modules are organized directly beneath it:
+
+```text
+SoundModem.sln
+SoundModem.csproj
+Program.cs
+Audio/
+Modem/
+Transport/
+```
+
 ## Modules and classes
 
 - **Application (`Program`)**: parses command-line options, creates the audio and transport services, and runs the modem session.
@@ -15,7 +28,7 @@ Install the native PortAudio runtime and connect an audio input/output device, t
 
 ```sh
 dotnet build SoundModem.sln
-dotnet run --project V21Modem/SoundModem.csproj
+dotnet run --project SoundModem.csproj
 ```
 
 Use `--endpoint` to override the default endpoint or `--self-test` to run the DSP loopback without audio hardware. The modem supports `AT`, `ATE0/1`, `ATV0/1`, `ATD/ATDT`, `ATA`, `ATH`, and `+++`. Windows named-pipe use requires an external COM bridge.

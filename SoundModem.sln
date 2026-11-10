@@ -3,9 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "V21Modem", "V21Modem", "{8CF06446-29F6-5F2E-AB3A-DF18B4CF2F58}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundModem", "V21Modem\SoundModem.csproj", "{31FAA5F6-C361-41E1-AA48-B7BE8CD76A88}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundModem", "SoundModem.csproj", "{3F486319-49E6-4BFC-B3CC-0CB7A333BB6E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,23 +15,20 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{31FAA5F6-C361-41E1-AA48-B7BE8CD76A88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{31FAA5F6-C361-41E1-AA48-B7BE8CD76A88}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{31FAA5F6-C361-41E1-AA48-B7BE8CD76A88}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{31FAA5F6-C361-41E1-AA48-B7BE8CD76A88}.Debug|x64.Build.0 = Debug|Any CPU
-		{31FAA5F6-C361-41E1-AA48-B7BE8CD76A88}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{31FAA5F6-C361-41E1-AA48-B7BE8CD76A88}.Debug|x86.Build.0 = Debug|Any CPU
-		{31FAA5F6-C361-41E1-AA48-B7BE8CD76A88}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{31FAA5F6-C361-41E1-AA48-B7BE8CD76A88}.Release|Any CPU.Build.0 = Release|Any CPU
-		{31FAA5F6-C361-41E1-AA48-B7BE8CD76A88}.Release|x64.ActiveCfg = Release|Any CPU
-		{31FAA5F6-C361-41E1-AA48-B7BE8CD76A88}.Release|x64.Build.0 = Release|Any CPU
-		{31FAA5F6-C361-41E1-AA48-B7BE8CD76A88}.Release|x86.ActiveCfg = Release|Any CPU
-		{31FAA5F6-C361-41E1-AA48-B7BE8CD76A88}.Release|x86.Build.0 = Release|Any CPU
+		{3F486319-49E6-4BFC-B3CC-0CB7A333BB6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F486319-49E6-4BFC-B3CC-0CB7A333BB6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F486319-49E6-4BFC-B3CC-0CB7A333BB6E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3F486319-49E6-4BFC-B3CC-0CB7A333BB6E}.Debug|x64.Build.0 = Debug|Any CPU
+		{3F486319-49E6-4BFC-B3CC-0CB7A333BB6E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3F486319-49E6-4BFC-B3CC-0CB7A333BB6E}.Debug|x86.Build.0 = Debug|Any CPU
+		{3F486319-49E6-4BFC-B3CC-0CB7A333BB6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F486319-49E6-4BFC-B3CC-0CB7A333BB6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F486319-49E6-4BFC-B3CC-0CB7A333BB6E}.Release|x64.ActiveCfg = Release|Any CPU
+		{3F486319-49E6-4BFC-B3CC-0CB7A333BB6E}.Release|x64.Build.0 = Release|Any CPU
+		{3F486319-49E6-4BFC-B3CC-0CB7A333BB6E}.Release|x86.ActiveCfg = Release|Any CPU
+		{3F486319-49E6-4BFC-B3CC-0CB7A333BB6E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{31FAA5F6-C361-41E1-AA48-B7BE8CD76A88} = {8CF06446-29F6-5F2E-AB3A-DF18B4CF2F58}
 	EndGlobalSection
 EndGlobal

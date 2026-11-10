@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/V21Modem/SoundModem.csproj",
+                "${workspaceFolder}/SoundModem.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -32,7 +32,7 @@
             "args": [
                 "run",
                 "--project",
-                "${workspaceFolder}/V21Modem/SoundModem.csproj",
+                "${workspaceFolder}/SoundModem.csproj",
                 "--",
                 "--self-test"
             ],

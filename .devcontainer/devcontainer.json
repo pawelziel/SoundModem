@@ -28,7 +28,7 @@
             ]
         }
     },
-    "postCreateCommand": "dotnet restore V21Modem/SoundModem.csproj",
+    "postCreateCommand": "dotnet restore SoundModem.csproj",
     "hostRequirements": {
         "memory": "8gb",
         "cpus": 4

@@ -30,7 +30,7 @@ jobs:
       - name: Test V.21 DSP loopback
         env:
           DOTNET_ROLL_FORWARD: Major
-        run: dotnet run --project V21Modem/SoundModem.csproj --configuration Release --no-build -- --self-test
+        run: dotnet run --project SoundModem.csproj --configuration Release --no-build -- --self-test
 
   package:
     name: Package ${{ matrix.runtime }}
@@ -55,7 +55,7 @@ jobs:
           dotnet-version: '10.0.x'
 
       - name: Publish SoundModem
-        run: dotnet publish V21Modem/SoundModem.csproj --configuration Release --runtime ${{ matrix.runtime }} --self-contained false --output publish
+        run: dotnet publish SoundModem.csproj --configuration Release --runtime ${{ matrix.runtime }} --self-contained false --output publish
 
       - name: Create archive
         run: tar -czf SoundModem-${{ matrix.runtime }}.tar.gz -C publish .

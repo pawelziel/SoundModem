@@ -6,9 +6,9 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build SoundModem",
-            "program": "${workspaceFolder}/V21Modem/bin/Debug/net8.0/SoundModem.dll",
+            "program": "${workspaceFolder}/bin/Debug/net8.0/SoundModem.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/V21Modem",
+            "cwd": "${workspaceFolder}",
             "stopAtEntry": false,
             "env": {
                 "DOTNET_ROLL_FORWARD": "Major"
