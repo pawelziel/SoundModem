@@ -37,7 +37,7 @@ internal static class Program
 
         try
         {
-            using var audio = new PortAudioHost(protocol);
+            using var audio = AudioHostFactory.Create(protocol);
             await using var transport = await SerialTransport.OpenAsync(endpoint, cancellation.Token);
             Console.Error.WriteLine($"{GetProtocolName(protocol)} modem ready. Serial endpoint: {transport.Endpoint}");
             Console.Error.WriteLine("Use Ctrl+C to stop.");

@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace SoundModem.Audio;
 
-internal sealed class PortAudioHost : IDisposable
+internal sealed class PortAudioHost : IAudioHost
 {
     private const int Continue = 0;
     private const ulong Int16SampleFormat = 0x00000008;
@@ -70,6 +70,8 @@ internal sealed class PortAudioHost : IDisposable
         }
     }
 
+    public bool IsAudioAvailable => true;
+
     public bool TryQueueTransmit(byte value) => _transmitQueue.TryWrite(value);
 
     public bool TryReadReceived(out byte value) => _receiveQueue.TryRead(out value);
@@ -129,7 +131,8 @@ internal sealed class PortAudioHost : IDisposable
         if (result != 0)
         {
             var message = Marshal.PtrToStringUTF8(PortAudioNative.GetErrorText(result));
-            throw new InvalidOperationException($"PortAudio could not {operation}: {message ?? $"error {result}"}.");
+            throw new AudioDeviceUnavailableException(
+                $"PortAudio could not {operation}: {message ?? $"error {result}"}.");
         }
     }
 }
