@@ -32,3 +32,7 @@ dotnet run --project SoundModem.csproj
 ```
 
 Use `--endpoint` to override the default endpoint or `--self-test` to run the DSP loopback without audio hardware. The modem supports `AT`, `ATE0/1`, `ATV0/1`, `ATD/ATDT`, `ATA`, `ATH`, and `+++`. Windows named-pipe use requires an external COM bridge.
+
+## Releases
+
+Each successful push to `main` publishes a GitHub Release tagged on that commit. Versions start at `v0.1.0`; every subsequent release increments the minor version (`v0.2.0`, `v0.3.0`, and so on).
