@@ -14,7 +14,7 @@ SoundModem is a cross-platform C#/.NET 8 software modem that bridges a serial by
 Install the native PortAudio runtime and connect an audio input/output device, then run:
 
 ```sh
-dotnet build V21Modem/SoundModem.csproj
+dotnet build SoundModem.sln
 dotnet run --project V21Modem/SoundModem.csproj
 ```
 

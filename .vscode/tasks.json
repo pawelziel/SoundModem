@@ -2,75 +2,45 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build frontend",
+            "label": "build SoundModem",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/SampleApp/FrontEnd/FrontEnd.csproj",
+                "${workspaceFolder}/SoundModem.sln",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "publish frontend",
+            "label": "publish SoundModem",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/SampleApp/FrontEnd/FrontEnd.csproj",
+                "${workspaceFolder}/V21Modem/SoundModem.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "watch frontend",
+            "label": "test SoundModem DSP",
             "command": "dotnet",
             "type": "process",
             "args": [
-                "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/SampleApp/FrontEnd/FrontEnd.csproj"
+                "${workspaceFolder}/V21Modem/SoundModem.csproj",
+                "--",
+                "--self-test"
             ],
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "label": "build backend",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "build",
-                "${workspaceFolder}/SampleApp/BackEnd/BackEnd.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
-            ],
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "label": "publish backend",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "publish",
-                "${workspaceFolder}/SampleApp/BackEnd/BackEnd.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
-            ],
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "label": "watch backend",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "watch",
-                "run",
-                "--project",
-                "${workspaceFolder}/SampleApp/BackEnd/BackEnd.csproj"
-            ],
+            "options": {
+                "env": {
+                    "DOTNET_ROLL_FORWARD": "Major"
+                }
+            },
             "problemMatcher": "$msCompile"
         }
     ]

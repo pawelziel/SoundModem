@@ -1,65 +1,23 @@
 {
     "version": "0.2.0",
-    "compounds": [
-        {
-            "name": "Run All",
-            "presentation": {
-				"group": "maingroup",
-				"order": 1
-			},
-            "configurations": [
-                "BackEnd",
-                "FrontEnd"
-            ]
-        }
-    ],
     "configurations": [
         {
-            "name": "BackEnd",
+            "name": "SoundModem",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build backend",
-            "program": "${workspaceFolder}/SampleApp/BackEnd/bin/Debug/net10.0/BackEnd.dll",
+            "preLaunchTask": "build SoundModem",
+            "program": "${workspaceFolder}/V21Modem/bin/Debug/net8.0/SoundModem.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/SampleApp/BackEnd",
+            "cwd": "${workspaceFolder}/V21Modem",
             "stopAtEntry": false,
-            "serverReadyAction": {
-                "action": "openExternally",
-                "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
-                "uriFormat": "%s/scalar"
-            },
             "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development"
-            },
-            "sourceFileMap": {
-                "/Views": "${workspaceFolder}/Views"
-            }
-        },
-        {
-            "name": "FrontEnd",
-            "type": "coreclr",
-            "request": "launch",
-            "preLaunchTask": "build frontend",
-            "program": "${workspaceFolder}/SampleApp/FrontEnd/bin/Debug/net10.0/FrontEnd.dll",
-            "args": [],
-            "cwd": "${workspaceFolder}/SampleApp/FrontEnd",
-            "stopAtEntry": false,
-            "serverReadyAction": {
-                "action": "openExternally",
-                "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
-                "uriFormat": "%s/"
-            },
-            "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development"
-            },
-            "sourceFileMap": {
-                "/Views": "${workspaceFolder}/Views"
+                "DOTNET_ROLL_FORWARD": "Major"
             }
         },
         {
             "name": ".NET Core Attach",
             "type": "coreclr",
             "request": "attach"
-        }
+        },
     ]
 }
