@@ -10,17 +10,29 @@ internal sealed class PortAudioHost : IDisposable
     private const int BufferCapacity = 4096;
     private readonly ByteRingBuffer _transmitQueue = new(BufferCapacity);
     private readonly ByteRingBuffer _receiveQueue = new(BufferCapacity);
-    private readonly V21FskModulator _modulator;
-    private readonly V21FskDemodulator _demodulator;
+    private readonly IAudioModulator _modulator;
+    private readonly IAudioDemodulator _demodulator;
     private readonly PortAudioNative.StreamCallback _callback;
     private IntPtr _stream;
     private bool _initialized;
     private bool _disposed;
 
-    public PortAudioHost()
+    public PortAudioHost(ModemProtocol protocol)
     {
-        _modulator = new V21FskModulator(_transmitQueue);
-        _demodulator = new V21FskDemodulator(_receiveQueue);
+        switch (protocol)
+        {
+            case ModemProtocol.V21:
+                _modulator = new V21FskModulator(_transmitQueue);
+                _demodulator = new V21FskDemodulator(_receiveQueue);
+                break;
+            case ModemProtocol.V22:
+                _modulator = new V22DqpskModulator(_transmitQueue);
+                _demodulator = new V22DqpskDemodulator(_receiveQueue);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(protocol));
+        }
+
         _callback = ProcessAudio;
 
         try
