@@ -1,25 +1,20 @@
-name: Build Backend and Frontend
+name: Build and Release
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
     branches:
       - main
-      
+
 permissions:
   contents: read
 
 jobs:
   build:
-    name: Build All Projects
+    name: Build solution and test DSP
     runs-on: ubuntu-latest
-
-    strategy:
-      fail-fast: false
-      matrix:
-        project:
-          - SampleApp/BackEnd/BackEnd.csproj
-          - SampleApp/FrontEnd/FrontEnd.csproj
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -29,8 +24,71 @@ jobs:
         with:
           dotnet-version: '10.0.x'
 
-      - name: Restore dependencies
-        run: dotnet restore ${{ matrix.project }}
+      - name: Build solution
+        run: dotnet build SampleApp/SampleApp.sln --configuration Release
 
-      - name: Build project
-        run: dotnet build ${{ matrix.project }} --no-restore --configuration Release
+      - name: Test V.21 DSP loopback
+        env:
+          DOTNET_ROLL_FORWARD: Major
+        run: dotnet run --project V21Modem/SoundModem.csproj --configuration Release --no-build -- --self-test
+
+  package:
+    name: Package ${{ matrix.runtime }}
+    if: github.event_name == 'push'
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        runtime:
+          - linux-x64
+          - win-x64
+          - osx-x64
+          - osx-arm64
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Publish SoundModem
+        run: dotnet publish V21Modem/SoundModem.csproj --configuration Release --runtime ${{ matrix.runtime }} --self-contained false --output publish
+
+      - name: Create archive
+        run: tar -czf SoundModem-${{ matrix.runtime }}.tar.gz -C publish .
+
+      - name: Upload release asset
+        uses: actions/upload-artifact@v4
+        with:
+          name: SoundModem-${{ matrix.runtime }}
+          path: SoundModem-${{ matrix.runtime }}.tar.gz
+          if-no-files-found: error
+
+  release:
+    name: Publish GitHub Release
+    if: github.event_name == 'push'
+    needs: package
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download release assets
+        uses: actions/download-artifact@v4
+        with:
+          pattern: SoundModem-*
+          path: release-assets
+          merge-multiple: true
+
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG_NAME: build-${{ github.run_number }}
+        run: |
+          gh release create "$TAG_NAME" release-assets/*.tar.gz \
+            --repo "$GITHUB_REPOSITORY" \
+            --target "$GITHUB_SHA" \
+            --title "SoundModem $TAG_NAME" \
+            --notes "Automated build published after a push to main. Archives are framework-dependent and require the .NET 8 runtime and native PortAudio."
